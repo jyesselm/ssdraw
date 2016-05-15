@@ -11,7 +11,9 @@ def random_ss(max_size=2):
     ss =  "(....)"
     seq, ss = add_helix(seq, ss, random.randint(2, 10))
     #for i in range(s):
-    seq, ss = add_junction(seq, ss, random.randint(0, 10), random.randint(0, 10))
+    for i in range(s):
+        seq, ss = add_junction(seq, ss, random.randint(0, 10), random.randint(0, 10))
+        seq, ss = add_helix(seq, ss, random.randint(2, 5))
 
     seq, ss = add_helix(seq, ss, random.randint(2, 10))
 
@@ -36,15 +38,16 @@ def add_junction(seq, ss, x_size, y_size):
     return seq, ss
 
 def test_drawer():
-    #seq, ss = random_ss()
+    seq, ss = random_ss(5)
 
     d = drawer.Drawer()
-    d.draw("GGAAGACAAGACAACC",
-           "((..(.)..(.)..))")
-    #d.draw(seq, ss)
+    #d.draw("GGAAGACAAGACAACC",
+    #       "((..(.)..(.)..))")
+    d.draw(seq, ss)
     #d.draw("GGGGAAAAAGGAAACAACCAAACCC",
     #       "((((.....((...)..))...)))")
-    #d.draw("GGAAAGCAAGCAGCAACC", "((...()..().()..))")
+    #d.draw("GGAAG+CCC",
+    #       "((..(+)))")
 
 
 test_drawer()
