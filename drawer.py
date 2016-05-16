@@ -13,6 +13,7 @@ class Drawer(object):
         self.residue_spacing = 0.025
         self.pair_space = 0.04
         self.CELL_PADDING = 40
+        self.draw_names = 1
 
         self.pose = None
         self.ssg  = None
@@ -36,10 +37,19 @@ class Drawer(object):
         for r in self.pose.residues():
             self.fig.add_component(r.get_obj())
             if self.draw_names:
-                self.fig.add_text(r.x, r.y+r.radius/7, r.name)
+                # writing to pdf has everything shifted slightly, and some
+                # letters more then others for some reason A is not nearly as
+                # effected
+                if r.name != "A":
+                    self.fig.add_text(r.x-r.radius/7, r.y-r.radius/7, r.name,
+                                  fontsize=self.pose.get_option('name_size'))
+                else:
+                    self.fig.add_text(r.x, r.y-r.radius/7, r.name,
+                                  fontsize=self.pose.get_option('name_size'))
 
+                #self.fig.add_text(r.x, r.y+r.radius/7, r.name,
 
-        self.fig.show()
+        self.fig.save()
 
     def _setup_coords(self):
 

@@ -24,3 +24,7 @@ group_1_intron = (
     ")))).)))))))))).)))))))..((((...(((((((((...))))))"+\
     ")))..))))}}....."
 )
+
+mini_ttr_design_2 = (
+"GTTGATATGGATAATACGTCAAGCTTCACCGAAGAACAAATCAGGGGAAACTTTGATTTGGGAGGTGAAGAACTACTTGACGTTGTCCTAAGTCAAC",
+ "((((((..((((((..((((((((((((((......((((((((((....))))))))))...))))))).....)))))))))))))...))))))")

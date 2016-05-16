@@ -1,5 +1,4 @@
-from rnamake import secondary_structure, secondary_structure_parser, graph, base
-from rnamake import option
+import secondary_structure, secondary_structure_parser, graph, base, option
 import components, settings
 
 class Residue2D(secondary_structure.Residue):
@@ -10,7 +9,7 @@ class Residue2D(secondary_structure.Residue):
             self.facecolor = 'orange'
         elif self.name == "G":
             self.facecolor = 'red'
-        elif self.name == "U":
+        elif self.name == "U" or self.name == "T":
             self.facecolor = 'blue'
         elif self.name == "C":
             self.facecolor = 'green'
@@ -95,11 +94,14 @@ class Pose2D(secondary_structure.Pose):
 
     def setup_options_and_constraints(self):
 
-        options = {'residue_radius' : 0.01,
-                   'residue_spacing': 0.025,
-                   'pair_space'     : 0.04,
-                   'scale'          : 1,
-                   'draw_names'     : 1}
+        options = {'residue_radius'   : 0.01,
+                   'residue_facecolor': 'white',
+                   'residue_edgecolor': 'black',
+                   'residue_spacing'  : 0.025,
+                   'pair_space'       : 0.035,
+                   'scale'            : 1,
+                   'draw_names'       : 1,
+                   'name_size'        : 10.0 }
 
         self.defaults = { name : value for name, value in  options.items() }
         self.options = option.Options(options)
@@ -112,15 +114,25 @@ class Pose2D(secondary_structure.Pose):
             ratio = value / self.options.get('residue_radius')
             rs = self.options.get('residue_spacing')
             ps = self.options.get('pair_space')
+            name_size = self.get_option('name_size')
 
-            self.options.set('residue_spacing',  ratio*rs)
+            self.options.set('residue_spacing', ratio*rs)
             self.options.set('pair_space', ratio*ps)
+            self.options.set('name_size', ratio*name_size)
 
             for r in self.residues():
                 r.radius = value
 
             for bp in self.basepairs:
                 bp.pair_space = ratio*ps
+
+        if name == 'residue_facecolor':
+            for r in self.residues():
+                r.facecolor = value
+
+        if name == 'residue_edgecolor':
+            for r in self.residues():
+                r.edgecolor = value
 
         self.options.set(name, value)
 

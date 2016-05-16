@@ -20,8 +20,9 @@ class Figure(object):
     def show(self):
         plt.show()
 
-    def save(self):
-        pass
+    def save(self, fname="test.pdf"):
+        plt.savefig(fname)
+
 
 
 def get_circle(x, y, radius=0.01, facecolor='blue', edgecolor='black',

@@ -8,8 +8,8 @@ import constructs
 
 def random_ss(max_size=2):
     s = random.randint(2, max_size)
-    seq = "GAAAAC"
-    ss =  "(....)"
+    seq = "GAAAAAAC"
+    ss =  "(......)"
     seq, ss = add_helix(seq, ss, random.randint(2, 10))
     #for i in range(s):
     for i in range(s):
@@ -39,23 +39,27 @@ def add_junction(seq, ss, x_size, y_size):
     return seq, ss
 
 def test_drawer():
-    seq, ss = random_ss(5)
+    seq, ss = random_ss(2)
 
     d = drawer.Drawer()
     #d.draw("GGAAGACAAGACAACC",
     #       "((..(.)..(.)..))")
-    #d.draw(seq, ss)
+    d.draw(seq, ss)
     #d.draw("GGGGAAAAAGGAAACAACCAAACCC",
     #       "((((.....((...)..))...)))")
     #d.draw("GGAAG+CCC",
     #       "((..(+)))")
 
-    d.draw(*constructs.group_1_intron)
+    #d.draw(*constructs.group_1_intron)
 
 def test_drawer_2():
 
-    p = structure_2d.get_pose(*constructs.signal_particle)
-    #p.update_option('residue_radius', 0.0075)
+    p = structure_2d.get_pose(*constructs.mini_ttr_design_2)
+    p.update_option('residue_radius', 0.0075)
+    #p.update_option('draw_names', 0)
+    #p.update_option('residue_facecolor', 'red')
+    #p.update_option('residue_edgecolor', 'white')
+
     d = drawer.Drawer()
     d.draw(pose=p)
 
