@@ -68,12 +68,12 @@ class Basepair2D(secondary_structure.Basepair):
         cross_x = go_y
         cross_y = -go_x
 
-        self.res1.set_pos( x + cross_x * self.pair_space / 2.0,
-                           y + cross_y * self.pair_space / 2.0,
+        self.res1.set_pos( x - cross_x * self.pair_space / 2.0,
+                           y - cross_y * self.pair_space / 2.0,
                            go_x, go_y)
 
-        self.res2.set_pos( x - cross_x * self.pair_space / 2.0,
-                           y - cross_y * self.pair_space / 2.0,
+        self.res2.set_pos( x + cross_x * self.pair_space / 2.0,
+                           y + cross_y * self.pair_space / 2.0,
                            go_x, go_y)
 
 

@@ -1,7 +1,7 @@
 SSDraw
 ======
 
-./drawer.py -seq "CCAAAAGG" -ss "((....))"
+./drawer.py -seq "GGAAAACC" -ss "((....))"
 
 Result:
 
