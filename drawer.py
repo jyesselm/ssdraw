@@ -1,18 +1,33 @@
 import math
+import argparse
 
-from rnamake import secondary_structure, secondary_structure_parser, motif_type
-from rnamake import secondary_structure_graph
+import secondary_structure, secondary_structure_parser, motif_type
+import secondary_structure_graph
 
 import components, structure_2d
 
+
 class Drawer(object):
+    """
+    Draws a secondary structure either from a sequence and dot bracket secondary
+    structure or from a secondary_structure.Pose object
+
+    :param seq: sequence of structure you want to draw
+    :param ss:  dot bracket notation of structure you want to draw
+    :param pose: secondary_structure.Pose that you have created in advance
+        that you want to draw
+
+    :type seq: Str
+    :type ss: Str
+    :type pose: secondary_structure.Pose
+
+    """
+
     def __init__(self):
         self.fig = components.Figure()
 
-        self.NODE_R = 6
         self.residue_spacing = 0.025
         self.pair_space = 0.04
-        self.CELL_PADDING = 40
         self.draw_names = 1
 
         self.pose = None
@@ -20,19 +35,18 @@ class Drawer(object):
 
     def draw(self, seq=None, ss=None, pose=None):
 
-        if pose is None:
-            p = secondary_structure_parser.SecondaryStructureParser()
-            self.pose = p.parse_to_pose(sequence=seq, dot_bracket=ss)
-        else:
-            self.pose = pose
+        self._setup(seq, ss, pose)
 
-            self.residue_spacing = self.pose.get_option('residue_spacing')
-            self.pair_space      = self.pose.get_option('pair_space')
-            self.draw_names      = self.pose.get_option('draw_names')
+        for r in self.pose.residues():
+            self.fig.add_component(r.get_obj())
+            if self.draw_names:
+                self.fig.add_text(r.x, r.y+r.radius/7, r.name,
+                                   fontsize=self.pose.get_option('name_size'))
 
-        self.ssg = secondary_structure_graph.graph_from_pose(self.pose)
+        self.fig.show()
 
-        self._setup_coords()
+    def save_fig(self, fname="test.pdf"):
+        self._setup(seq, ss, pose)
 
         for r in self.pose.residues():
             self.fig.add_component(r.get_obj())
@@ -47,9 +61,23 @@ class Drawer(object):
                     self.fig.add_text(r.x, r.y-r.radius/7, r.name,
                                   fontsize=self.pose.get_option('name_size'))
 
-                #self.fig.add_text(r.x, r.y+r.radius/7, r.name,
-
         self.fig.save()
+
+    def _setup(self, seq, ss, pose):
+        if pose is None:
+            p = secondary_structure_parser.SecondaryStructureParser()
+            self.pose = p.parse_to_pose(sequence=seq, dot_bracket=ss)
+        else:
+            self.pose = pose
+
+            # copy options from pose
+            self.residue_spacing = self.pose.get_option('residue_spacing')
+            self.pair_space      = self.pose.get_option('pair_space')
+            self.draw_names      = self.pose.get_option('draw_names')
+
+        self.ssg = secondary_structure_graph.graph_from_pose(self.pose)
+        self._setup_coords()
+
 
     def _setup_coords(self):
 
@@ -104,6 +132,12 @@ class Drawer(object):
         return nodes
 
     def _setup_unpaired_coords(self, n):
+        """
+        draws unpaired residues in a circle
+
+        :param n:
+        :return:
+        """
 
         nodes = self._get_unbound_nodes(n)
 
@@ -142,6 +176,25 @@ class Drawer(object):
 
             if isinstance(e, structure_2d.Basepair2D):
                 length_walker += self.pair_space / 2.0
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='')
+
+    parser.add_argument('-ss', help='path', required=True)
+    parser.add_argument('-seq', required=True)
+    args = parser.parse_args()
+    return args
+
+
+def main():
+    args = parse_args()
+    d = Drawer()
+    d.draw(seq=args.seq, ss=args.ss)
+
+
+
+if __name__ == '__main__':
+    main()
 
 
 
