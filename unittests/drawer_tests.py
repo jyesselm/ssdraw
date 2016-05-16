@@ -3,7 +3,8 @@ import uuid
 import random
 sys.path.append("..")
 
-import drawer
+import drawer, structure_2d
+import constructs
 
 def random_ss(max_size=2):
     s = random.randint(2, max_size)
@@ -43,11 +44,20 @@ def test_drawer():
     d = drawer.Drawer()
     #d.draw("GGAAGACAAGACAACC",
     #       "((..(.)..(.)..))")
-    d.draw(seq, ss)
+    #d.draw(seq, ss)
     #d.draw("GGGGAAAAAGGAAACAACCAAACCC",
     #       "((((.....((...)..))...)))")
     #d.draw("GGAAG+CCC",
     #       "((..(+)))")
 
+    d.draw(*constructs.group_1_intron)
 
-test_drawer()
+def test_drawer_2():
+
+    p = structure_2d.get_pose(*constructs.signal_particle)
+    #p.update_option('residue_radius', 0.0075)
+    d = drawer.Drawer()
+    d.draw(pose=p)
+
+
+test_drawer_2()

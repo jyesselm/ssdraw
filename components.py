@@ -13,8 +13,9 @@ class Figure(object):
     def add_component(self, c):
         self.ax.add_patch(c)
 
-    def add_text(self, x, y, text):
-        pass
+    def add_text(self, x, y, text, fontsize=12):
+        self.ax.text(x, y, text, fontsize=fontsize,
+                     verticalalignment='center', horizontalalignment='center')
 
     def show(self):
         plt.show()
