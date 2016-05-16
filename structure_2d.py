@@ -122,6 +122,8 @@ class Pose2D(secondary_structure.Pose):
             for bp in self.basepairs:
                 bp.pair_space = ratio*ps
 
+        self.options.set(name, value)
+
     def get_option(self, name):
         return self.options.get(name)
 
