@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import math
 import argparse
 
@@ -61,7 +63,7 @@ class Drawer(object):
                     self.fig.add_text(r.x, r.y-r.radius/7, r.name,
                                   fontsize=self.pose.get_option('name_size'))
 
-        self.fig.save()
+        self.fig.save(fname)
 
     def _setup(self, seq, ss, pose):
         if pose is None:
@@ -77,7 +79,6 @@ class Drawer(object):
 
         self.ssg = secondary_structure_graph.graph_from_pose(self.pose)
         self._setup_coords()
-
 
     def _setup_coords(self):
 
