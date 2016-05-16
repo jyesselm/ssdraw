@@ -5,4 +5,4 @@ SSDraw
 
 Result:
 
-[![alt text](resources/example.png "example output")
+![alt text](resources/example.png "example output")
